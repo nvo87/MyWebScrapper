@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+{% block title %}Start Page{% endblock %}
+{% block head %}
+  {{ super() }}
+  <style type="text/css">
+    .important { color: #336699; }
+  </style>
+{% endblock %}
+{% block content %}
+
+{% include "common/header.html" %}
+
+<div class="main-content">
+    <div class="settings-wrapper section-wrapper">
+        <div class="container">
+            <h2 class="text-center title">Укажите, что будем отслеживать</h2>
+            <div class="scrapper-form-wrapper">
+                <form method="post" action="/">
+                    <div class="form-group d-flex">
+                        <div class="input-group input-group-lg input-line">
+                            <div class="input-group-prepend"><span class="input-group-text">Имя</span></div>
+                            <input type="text" required value="" name="wrapper_name" placeholder="Погода в Москве" class="form-control" />
+                        </div>
+                        <div class="input-group input-group-lg input-line">
+                            <div class="input-group-prepend"><span class="input-group-text">URL</span></div>
+                            <input type="text" required value="" name="url" placeholder="http://yandex.ru/pogoda/moscow" class="form-control" />
+                        </div>
+                        <div class="input-group input-group-lg input-line">
+                            <div class="input-group-prepend"><span class="input-group-text">Selector</span></div>
+                            <input type="text" required value="" name="selector" placeholder=".fact__temp .temp__value" class="form-control" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Go!</button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="scrappers-wrapper section-wrapper">
+        <div class="container">
+            <h2 class="text-center title">Мои скрапперы</h2>
+            {% for scrapper in scrappers %}
+            <div class="scrapper">
+                <div class="scrapper-form-wrapper">
+                    <form method="post" action="/">
+                        <div class="form-group d-flex">
+                            <div class="input-group input-group-lg input-line">
+                                {# <div class="input-group-prepend"><span class="input-group-text">Имя</span></div> #}
+                                <input type="text" value="{{ scrapper.name or 'Погода в Москве' }}" name="wrapper_name" disabled class="form-control" />
+                            </div>
+                            <div class="input-group input-group-lg input-line">
+                                {# <div class="input-group-prepend"><span class="input-group-text">URL</span></div> #}
+                                <input type="text" value="{{ scrapper.url or 'http://yandex.ru/pogoda/moscow' }}" name="url" disabled class="form-control" />
+                            </div>
+                            <div class="input-group input-group-lg input-line">
+                                {# <div class="input-group-prepend"><span class="input-group-text">Selector</span></div> #}
+                                <input type="text" value="{{ scrapper.selector or '.fact__temp .temp__value' }}" name="selector" disabled class="form-control" />
+                                <!-- <div class="input-group-append">
+                                    <button class="btn" type="submit">Go!</button>
+                                </div> -->
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                {% if scrapper.result %}
+                <div class="scrapper-result">
+                    <h3 class="text-center text-primary bg-light title results-title">{{ scrapper.name }}: {{ scrapper.result }}</h3>
+                </div>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block js_footer %}
+    {{ super() }}
+{% endblock js_footer %}

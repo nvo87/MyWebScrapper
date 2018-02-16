@@ -1,0 +1,21 @@
+{
+  "name": "libs",
+  "authors": [
+    "nvo87 <nvo87@yandex.ru>"
+  ],
+  "description": "libs for my project",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^4.0.0",
+    "open-iconic": "^1.1.1"
+  }
+}
