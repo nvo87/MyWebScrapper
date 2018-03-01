@@ -1,10 +1,10 @@
 import mysql.connector
-from dbconfig import dbconfig
+from dbconfig import dbconf
 
 
 class UseDatabase():
     """Диспетчер контекста для подключения к БД"""
-    def __init__(self, dbconfig: dict) -> None:
+    def __init__(self, dbconfig:dict=dbconf) -> None:
         self.dbconfig = dbconfig
 
     def __enter__(self) -> 'cursor':

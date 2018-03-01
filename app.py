@@ -1,41 +1,31 @@
 from flask import Flask, render_template, request, redirect
 
-from dbconnect import UseDatabase, dbconfig
-from web_scrapper import Scrapper
+from web_scrapper import Scrapper, ScrappersList
 
 app = Flask(__name__)
 
+
 @app.route('/', methods=['GET','POST'])
 def main_page():
-    if request.method == 'GET':
-        with UseDatabase(dbconfig) as cursor:
-            SQL_select = """ select name, url, selector from scrappers """
-            cursor.execute(SQL_select)
-            scrappers_data = cursor.fetchall()
+    scrappers = ScrappersList()
 
-        scrappers=[]
-        for scrapper_data_item in scrappers_data:
-            scrapper = Scrapper(name=scrapper_data_item[0],
-                                url=scrapper_data_item[1], 
-                                selector=scrapper_data_item[2])
-            scrapper.result = scrapper.get_scrapped_value()
-            scrappers.append(scrapper)
+    if request.method == 'POST':
+        scrappers.add_scrapper(request.form['name'],
+                                request.form['url'], 
+                                request.form['selector'])
+    
+    context = {
+        'scrappers': scrappers.get_all_scrappers()
+    }
 
-        context = {
-            'scrappers': scrappers
-        }
-        
-    elif request.method == 'POST':
-        url = request.form['url']
-        selector = request.form['selector']
-        wrapper_name = request.form['wrapper_name']
-
-        context = {
-            'scrappers': scrappers
-        }
-
-        
+    print(context['scrappers'])
     return render_template('index.html', **context)
 
+@app.route('/delete-scrapper/', methods=['POST'])
+def del_scrapper():
+    scrappers = ScrappersList()
+    scrappers.del_scrapper(request.form['scrapper_id'])
+    return 'ok'
+
 if __name__=="__main__":
-    app.run(debug=True)
+    app.run(debug=True, port=8001)

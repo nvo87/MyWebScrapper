@@ -19,7 +19,7 @@
                     <div class="form-group d-flex">
                         <div class="input-group input-group-lg input-line">
                             <div class="input-group-prepend"><span class="input-group-text">Имя</span></div>
-                            <input type="text" required value="" name="wrapper_name" placeholder="Погода в Москве" class="form-control" />
+                            <input type="text" required value="" name="name" placeholder="Погода в Москве" class="form-control" />
                         </div>
                         <div class="input-group input-group-lg input-line">
                             <div class="input-group-prepend"><span class="input-group-text">URL</span></div>
@@ -43,22 +43,23 @@
             {% for scrapper in scrappers %}
             <div class="scrapper">
                 <div class="scrapper-form-wrapper">
-                    <form method="post" action="/">
+                    <form method="post" action="/" class="scrapper-form">
                         <div class="form-group d-flex">
+                            <input type="hidden" value="{{ scrapper.id }}" class="scrapper_id">
                             <div class="input-group input-group-lg input-line">
                                 {# <div class="input-group-prepend"><span class="input-group-text">Имя</span></div> #}
-                                <input type="text" value="{{ scrapper.name or 'Погода в Москве' }}" name="wrapper_name" disabled class="form-control" />
+                                <input type="text" value="{{ scrapper.name }}" name="name" disabled class="form-control" />
                             </div>
                             <div class="input-group input-group-lg input-line">
                                 {# <div class="input-group-prepend"><span class="input-group-text">URL</span></div> #}
-                                <input type="text" value="{{ scrapper.url or 'http://yandex.ru/pogoda/moscow' }}" name="url" disabled class="form-control" />
+                                <input type="text" value="{{ scrapper.url }}" name="url" disabled class="form-control" />
                             </div>
                             <div class="input-group input-group-lg input-line">
                                 {# <div class="input-group-prepend"><span class="input-group-text">Selector</span></div> #}
-                                <input type="text" value="{{ scrapper.selector or '.fact__temp .temp__value' }}" name="selector" disabled class="form-control" />
-                                <!-- <div class="input-group-append">
-                                    <button class="btn" type="submit">Go!</button>
-                                </div> -->
+                                <input type="text" value="{{ scrapper.selector }}" name="selector" disabled class="form-control" />
+                                <div class="input-group-append">
+                                    <button class="btn js-scrapper-delete" type="submit"><span class="oi oi-trash"></span></button>
+                                </div>
                             </div>
                         </div>
                     </form>
