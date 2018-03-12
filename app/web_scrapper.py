@@ -6,6 +6,9 @@ from dbconnect import UseDatabase
 
 pp = pprint.PrettyPrinter(indent=4)
 
+# TODO создать таблицу Scrapper_values для отдельного скарппера. Добавлять в нее историю сканирований
+# TODO решено перейти на SQL-Alchemy, см. уроки Мега учебник FLASK https://habrahabr.ru/post/196810/
+
 
 class Scrapper:
     """ Один скраппер, работа с его параметрами """
@@ -68,8 +71,7 @@ class ScrappersList:
 
     def add_scrapper(self, name, url, selector) -> None:
         with UseDatabase() as cursor:
-            SQL_insert = """ 
-                            INSERT INTO scrappers 
+            SQL_insert = """INSERT INTO scrappers 
                             (name, url, selector) 
                             VALUES (%s, %s, %s) 
                         """
@@ -77,7 +79,5 @@ class ScrappersList:
 
     def del_scrapper(self, id) -> None:
         with UseDatabase() as cursor:
-            SQL_delete = """ DELETE FROM scrappers
-                            WHERE id = %s 
-                        """
+            SQL_delete = """DELETE FROM scrappers WHERE id = %s"""
             cursor.execute(SQL_delete, (id,))
