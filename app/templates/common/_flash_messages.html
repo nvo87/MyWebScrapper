@@ -1,0 +1,14 @@
+{# with - задает свою область видимости, за пределами которой не видно этих переменных   #}
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        <div class="notifications-wrapper section-wrapper">
+            <div class="container">
+                <ul>
+                    {% for message in messages %}
+                        <li class="alert alert-info" role="alert">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    {% endif %}
+{% endwith %}

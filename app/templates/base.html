@@ -4,7 +4,7 @@
     {% block head %}
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% endblock %} - My Webpage</title>
+    <title>{% block title %}{% endblock %} - My WebScrappers</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='bower/open-iconic/font/css/open-iconic-bootstrap.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='bower/bootstrap/dist/css/bootstrap.min.css') }}">
@@ -22,7 +22,7 @@
     {% block js_footer %}
     <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
     <script src="{{ url_for('static', filename='bower/bootstrap/dist/js/bootstrap.min.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+{#    <script src="{{ url_for('static', filename='js/script.js') }}"></script>#}
     {% endblock js_footer %}
   </body>
 </html>

@@ -1,29 +1,38 @@
-from flask import render_template, request
+from flask import render_template, url_for, redirect, flash
 
-from app import app
-from .web_scrapper import ScrappersList
+from app import app, db
+from .models import Scrapper
+from .forms import ScrapperForm
 
 
-@app.route('/', methods=['GET', 'POST'])
+@app.route('/')
 def main_page():
-    scrappers = ScrappersList()
+    scrapper_form = ScrapperForm()
+    scrappers = Scrapper.query.all()
+    for scrapper in scrappers:
+        scrapper.get_new_value()
+    return render_template('index.html', scrapper_form=scrapper_form, scrappers=scrappers)
 
-    # Добавляем скраппер
-    if request.method == 'POST':
-        scrappers.add_scrapper(request.form['name'],
-                               request.form['url'],
-                               request.form['selector'])
 
-    context = {
-        'scrappers': scrappers.get_all_scrappers()
-    }
-
-    print(context['scrappers'])
-    return render_template('index.html', **context)
+@app.route('/add-scrapper', methods=['POST'])
+def add_scrapper():
+    """ Adding new scrapper to DB. """
+    form = ScrapperForm()
+    if form.validate_on_submit():
+        scrapper = Scrapper(name=form.name.data, url=form.url.data, selector=form.selector.data)
+        db.session.add(scrapper)
+        db.session.commit()
+        flash('New scrapper called "{}" has been added'.format(scrapper.name))
+    return redirect(url_for('main_page'))
 
 
 @app.route('/delete-scrapper/', methods=['POST'])
 def del_scrapper():
-    scrappers = ScrappersList()
-    scrappers.del_scrapper(request.form['scrapper_id'])
-    return 'ok'
+    """ Removing scrapper from DB by its id. """
+    form = ScrapperForm()
+    if form.validate_on_submit():
+        scrapper = Scrapper.query.filter_by(id=form.id.data).first()
+        db.session.delete(scrapper)
+        db.session.commit()
+        flash('New scrapper called "{}" has been deleted'.format(scrapper.name))
+    return redirect(url_for('main_page'))

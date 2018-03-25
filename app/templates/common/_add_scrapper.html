@@ -1,0 +1,34 @@
+<h2 class="text-center title">Укажите, что будем отслеживать</h2>
+<div class="add-scrapper">
+    <div class="scrapper-form-wrapper">
+        <form method="post" action="{{ url_for('add_scrapper') }}">
+            {{ scrapper_form.hidden_tag() }}
+            <div class="form-group d-flex">
+                <div class="input-group input-group-lg input-line">
+                    <div class="input-group-prepend"><span class="input-group-text">{{ scrapper_form.name.label }}</span></div>
+                    {{ scrapper_form.name(class="form-control", placeholder="Погода в Москве", required="required") }}
+                    {% for error in scrapper_form.name.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="input-group input-group-lg input-line">
+                    <div class="input-group-prepend"><span class="input-group-text">{{ scrapper_form.url.label }}</span></div>
+                    {{ scrapper_form.url(class="form-control", placeholder="http://yandex.ru/pogoda/moscow", required="required") }}
+                    {% for error in scrapper_form.url.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                </div>
+                <div class="input-group input-group-lg input-line">
+                    <div class="input-group-prepend"><span class="input-group-text">{{ scrapper_form.selector.label }}</span></div>
+                    {{ scrapper_form.selector(class="form-control", placeholder=".fact__temp .temp__value", required="required") }}
+                    {% for error in scrapper_form.selector.errors %}
+                        <span style="color: red;">[{{ error }}]</span>
+                    {% endfor %}
+                    <div class="input-group-append">
+                        {{ scrapper_form.submit(class="btn btn-primary", value="Go!") }}
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

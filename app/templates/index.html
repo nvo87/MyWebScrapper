@@ -6,70 +6,21 @@
     .important { color: #336699; }
   </style>
 {% endblock %}
+
 {% block content %}
-
-{% include "common/header.html" %}
-
+{% include "common/_header.html" %}
 <div class="main-content">
     <div class="settings-wrapper section-wrapper">
         <div class="container">
-            <h2 class="text-center title">Укажите, что будем отслеживать</h2>
-            <div class="scrapper-form-wrapper">
-                <form method="post" action="/">
-                    <div class="form-group d-flex">
-                        <div class="input-group input-group-lg input-line">
-                            <div class="input-group-prepend"><span class="input-group-text">Имя</span></div>
-                            <input type="text" required value="" name="name" placeholder="Погода в Москве" class="form-control" />
-                        </div>
-                        <div class="input-group input-group-lg input-line">
-                            <div class="input-group-prepend"><span class="input-group-text">URL</span></div>
-                            <input type="text" required value="" name="url" placeholder="http://yandex.ru/pogoda/moscow" class="form-control" />
-                        </div>
-                        <div class="input-group input-group-lg input-line">
-                            <div class="input-group-prepend"><span class="input-group-text">Selector</span></div>
-                            <input type="text" required value="" name="selector" placeholder=".fact__temp .temp__value" class="form-control" />
-                            <div class="input-group-append">
-                                <button class="btn btn-primary" type="submit">Go!</button>
-                            </div>
-                        </div>
-                    </div>
-                </form>
-            </div>
+            {% include 'common/_add_scrapper.html' %}
         </div>
     </div>
+    {% include 'common/_flash_messages.html' %}
     <div class="scrappers-wrapper section-wrapper">
         <div class="container">
             <h2 class="text-center title">Мои скрапперы</h2>
             {% for scrapper in scrappers %}
-            <div class="scrapper">
-                <div class="scrapper-form-wrapper">
-                    <form method="post" action="/" class="scrapper-form">
-                        <div class="form-group d-flex">
-                            <input type="hidden" value="{{ scrapper.id }}" class="scrapper_id">
-                            <div class="input-group input-group-lg input-line">
-                                {# <div class="input-group-prepend"><span class="input-group-text">Имя</span></div> #}
-                                <input type="text" value="{{ scrapper.name }}" name="name" disabled class="form-control" />
-                            </div>
-                            <div class="input-group input-group-lg input-line">
-                                {# <div class="input-group-prepend"><span class="input-group-text">URL</span></div> #}
-                                <input type="text" value="{{ scrapper.url }}" name="url" disabled class="form-control" />
-                            </div>
-                            <div class="input-group input-group-lg input-line">
-                                {# <div class="input-group-prepend"><span class="input-group-text">Selector</span></div> #}
-                                <input type="text" value="{{ scrapper.selector }}" name="selector" disabled class="form-control" />
-                                <div class="input-group-append">
-                                    <button class="btn js-scrapper-delete" type="submit"><span class="oi oi-trash"></span></button>
-                                </div>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                {% if scrapper.result %}
-                <div class="scrapper-result">
-                    <h3 class="text-center text-primary bg-light title results-title">{{ scrapper.name }}: {{ scrapper.result }}</h3>
-                </div>
-                {% endif %}
-            </div>
+                {% include 'common/_scrapper.html' %}
             {% endfor %}
         </div>
     </div>
