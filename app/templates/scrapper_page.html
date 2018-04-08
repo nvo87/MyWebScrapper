@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}Start Page{% endblock %}
+{% block head %}
+    {{ super() }}
+    <style type="text/css">
+        .important {
+            color: #336699;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% include "common/_header.html" %}
+    <div class="main-content">
+        {% include 'common/_flash_messages.html' %}
+        <div class="scrappers-wrapper section-wrapper">
+            <div class="container">
+                <h2 class="text-center title">Мои скрапперы</h2>
+                <h3 class="title">{{ scrapper.name }}</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Value</th>
+                        <th scope="col">Date, time</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for value in values %}
+                        <tr>
+                            <th scope="row">{{ loop.index }}</th>
+                            <td>{{ value.value }}</td>
+                            <td>{{ value.timestamp }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js_footer %}
+    {{ super() }}
+{% endblock js_footer %}

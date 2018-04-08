@@ -1,12 +1,10 @@
 from datetime import datetime
 
 from app import db
-import app.web_scrapper as web_scrapper
-
-# TODO get_new_value - как сохранить значение в scrapper_values
+from app.web_scrapper import WebScrapper
 
 
-class Scrapper(db.Model):
+class Scrapper(db.Model, WebScrapper):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     url = db.Column(db.String(256))
@@ -19,12 +17,12 @@ class Scrapper(db.Model):
         return 'Scrapper {}'.format(self.name)
 
     def get_new_value(self):
-        self.value_now = web_scrapper.get_new_value(self.url, self.selector)
+        self.value_now = super().get_new_value(self.url, self.selector)
         return self.value_now
 
 
 class Scrapper_values(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     scrapper_id = db.Column(db.Integer, db.ForeignKey('scrapper.id'))
-    value = db.Column(db.Float)
+    value = db.Column(db.String(32))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
