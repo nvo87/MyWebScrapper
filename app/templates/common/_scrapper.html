@@ -21,7 +21,8 @@
                                               required="required") }}
                     <div class="input-group-append">
                         {#                        {{ scrapper_form.submit(class="btn js-scrapper-delete", value="Del") }}#}
-                        <button class="btn js-scrapper-delete" type="submit"><span class="oi oi-pencil"></span></button>
+                        <button class="btn scrapper-btn js-scrapper-delete" type="submit"><span
+                                class="oi oi-pencil"></span></button>
                         <a href="{{ url_for('del_scrapper', scrapper_id=scrapper.id) }}"
                            class="btn scrapper-btn js-scrapper-delete"><span class="oi oi-trash"></span></a>
                     </div>

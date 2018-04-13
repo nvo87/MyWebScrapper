@@ -81,6 +81,10 @@ a:hover{
     background-color: #D1ECF1;
 }
 
+.scrapper-btn:hover {
+    background-color: #dddddd;
+}
+
 .results-title{
   border-radius: .3rem;
   margin-bottom: 0;
