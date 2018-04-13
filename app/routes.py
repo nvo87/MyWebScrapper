@@ -33,15 +33,13 @@ def add_scrapper():
     return redirect(url_for('main_page'))
 
 
-@app.route('/delete-scrapper/', methods=['POST'])
-def del_scrapper():
+@app.route('/delete-scrapper/<scrapper_id>')
+def del_scrapper(scrapper_id):
     """ Removing scrapper from DB by its id. """
-    form = ScrapperForm()
-    if form.validate_on_submit():
-        scrapper = Scrapper.query.filter_by(id=form.id.data).first()
-        db.session.delete(scrapper)
-        db.session.commit()
-        flash('Scrapper called "{}" has been deleted'.format(scrapper.name))
+    scrapper = Scrapper.query.filter_by(id=scrapper_id).first()
+    db.session.delete(scrapper)
+    db.session.commit()
+    flash('Scrapper called "{}" has been deleted'.format(scrapper.name))
     return redirect(url_for('main_page'))
 
 
@@ -52,3 +50,17 @@ def scrapper_info(scrapper_id):
     scrapper = Scrapper.query.filter_by(id=scrapper_id).first()
     values = Scrapper_values.query.filter_by(scrapper_id=scrapper_id).order_by(Scrapper_values.timestamp.desc()).all()
     return render_template('scrapper_page.html', scrapper=scrapper, values=values, form=form)
+
+
+@app.route('/edit-scrapper/<scrapper_id>', methods=['POST'])
+def edit_scrapper(scrapper_id):
+    """ Editing scrapper from DB by its id. """
+    form = ScrapperForm()
+    if form.validate_on_submit():
+        scrapper = Scrapper.query.filter_by(id=scrapper_id).first()
+        scrapper.name = form.name.data
+        scrapper.url = form.url.data
+        scrapper.selector = form.selector.data
+        db.session.commit()
+        flash('Scrapper called "{}" has been edited'.format(scrapper.name))
+    return redirect(url_for('main_page'))

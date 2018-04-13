@@ -1,9 +1,8 @@
 <div class="scrapper">
     <div class="scrapper-form-wrapper">
-        <form method="post" action="{{ url_for('del_scrapper') }}" class="scrapper-form">
+        <form method="post" action="{{ url_for('edit_scrapper', scrapper_id=scrapper.id) }}" class="scrapper-form">
             {{ scrapper_form.csrf_token }}
             <div class="form-group d-flex">
-{#                <input type="hidden" value="{{ scrapper.id }}" name="id" class="scrapper_id">#}
                 {{ scrapper_form.id(value=scrapper.id) }}
                 <div class="input-group input-group-lg input-line">
                     {{ scrapper_form.name(class="form-control",
@@ -21,9 +20,10 @@
                                               value=scrapper.selector,
                                               required="required") }}
                     <div class="input-group-append">
-{#                        TODO вставить иконку на кнопку вместо надписи Del #}
-{#                        <button class="btn js-scrapper-delete" type="submit"><span class="oi oi-trash"></span></button>#}
-                        {{ scrapper_form.submit(class="btn js-scrapper-delete", value="Del") }}
+                        {#                        {{ scrapper_form.submit(class="btn js-scrapper-delete", value="Del") }}#}
+                        <button class="btn js-scrapper-delete" type="submit"><span class="oi oi-pencil"></span></button>
+                        <a href="{{ url_for('del_scrapper', scrapper_id=scrapper.id) }}"
+                           class="btn scrapper-btn js-scrapper-delete"><span class="oi oi-trash"></span></a>
                     </div>
                 </div>
             </div>

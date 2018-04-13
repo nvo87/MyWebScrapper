@@ -8,7 +8,7 @@ class Scrapper(db.Model, WebScrapper):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True)
     url = db.Column(db.String(256))
-    selector = db.Column(db.String(128))
+    selector = db.Column(db.String(1024))
     # The lazy argument defines how the database query for the relationship will be issued
     values = db.relationship('Scrapper_values', backref='scrapper', lazy='dynamic')
     value_now = None
@@ -25,4 +25,4 @@ class Scrapper_values(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     scrapper_id = db.Column(db.Integer, db.ForeignKey('scrapper.id'))
     value = db.Column(db.String(32))
-    timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
+    timestamp = db.Column(db.DateTime, index=True, default=datetime.now)
