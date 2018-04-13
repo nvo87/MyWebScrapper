@@ -29,11 +29,11 @@
             </div>
         </form>
     </div>
-    {% if scrapper.value_now %}
+
     <div class="scrapper-result">
         <h3 class="text-center text-primary bg-light title results-title">
-            <a href="{{ url_for('scrapper_info', scrapper_id=scrapper.id) }}">{{ scrapper.name }}: {{ scrapper.value_now }}</a>
+            <a href="{{ url_for('scrapper_info', scrapper_id=scrapper.id) }}">{{ scrapper.name }}: {{ scrapper.value_now or '-' }}</a>
         </h3>
     </div>
-    {% endif %}
+
 </div>

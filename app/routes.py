@@ -10,11 +10,13 @@ def main_page():
     scrapper_form = ScrapperForm()
     scrappers = Scrapper.query.all()
     for scrapper in scrappers:
-        if scrapper.get_new_value():
+        try:
+            scrapper.get_new_value()
+        except Exception as err:
+            flash('Error is: ' + str(err) + ' in ' + scrapper.name)
+        else:
             new_value = Scrapper_values(scrapper_id=scrapper.id, value=scrapper.value_now)
             db.session.add(new_value)
-        else:
-            flash('There is an error in "{}"'.format(scrapper.name))
     db.session.commit()
     return render_template('index.html', scrapper_form=scrapper_form, scrappers=scrappers)
 
@@ -24,7 +26,6 @@ def add_scrapper():
     """ Adding new scrapper to DB. """
     form = ScrapperForm()
     if form.validate_on_submit():
-        # TODO добавить проверку работоспособности скраппера перед сохранением его в БД.
         scrapper = Scrapper(name=form.name.data, url=form.url.data, selector=form.selector.data)
         db.session.add(scrapper)
         db.session.commit()
@@ -40,7 +41,7 @@ def del_scrapper():
         scrapper = Scrapper.query.filter_by(id=form.id.data).first()
         db.session.delete(scrapper)
         db.session.commit()
-        flash('New scrapper called "{}" has been deleted'.format(scrapper.name))
+        flash('Scrapper called "{}" has been deleted'.format(scrapper.name))
     return redirect(url_for('main_page'))
 
 
